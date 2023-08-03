@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import React from 'react';
 import {
   Box,
   FormControl,
@@ -51,10 +52,26 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ setLogin }) => {
     const selected = new Date(selectedDate);
     const age = today.getFullYear() - selected.getFullYear();
 
-    if (age < 18 || !age) {
-      handleError('Age Cannot be less than 18!', 'error');
-      return;
+    if(user.name === '' ||
+    user.email === '' || 
+    user.dob === '' ||
+    user.password === '' ||
+    user.pincode === '' ||
+    user.city === ''
+    ){
+     handleError('Please Fill All Field','error');
+     return;
+    }else if(user.pincode.length!==6){
+     handleError('Please Enter 6 Digit PinCode!','error');
+     return;
+    }else if(user.password.length<6){
+     handleError('Please Enter atleast 6 Digit Password','error');
+     return;
     }
+    if (age < 18 || !age) {
+     handleError('Age Cannot be less than 18!', 'error');
+     return;
+   }
 
     dispatch(registerUser(user));
     setLogin(true);
